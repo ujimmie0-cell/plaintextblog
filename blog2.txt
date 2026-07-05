@@ -1,4 +1,87 @@
 <start>
+# Interactive Canvas Experiment
+
+Testing out the new custom inline script engine with interactive event hooks. Use the mouse to push the circle, scroll to scale it, or press space to bounce it upwards.
+
+<bs>
+// --- 1. Initialization Phase ---
+// Variables are declared cleanly; state variables persist across frames.
+state x = 200
+state y = 150
+state speedX = 3
+state speedY = 2
+state radius = 25
+state hitColor = "#00ff00"
+state frameCounter = 0
+
+// --- 2. Physics & Logic Phase (Runs Every Frame) ---
+tick:
+frameCounter = frameCounter + 1
+
+// Move the circle by its current frame speed
+x = x + speedX
+y = y + speedY
+
+// Check wall collisions (Canvas size is 400x300)
+if x > 375:
+    speedX = -3
+    hitColor = "#ff0000"
+else:
+    if x < 25:
+        speedX = 3
+        hitColor = "#0000ff"
+
+if y > 275:
+    speedY = -2
+    hitColor = "#ffff00"
+else:
+    if y < 25:
+        speedY = 2
+        hitColor = "#00ffff"
+
+// Add a subtle wave oscillation to the size over time using math primitives
+radius = 25 + sin(frameCounter / 10) * 5
+
+// --- 3. Graphics Rendering Phase ---
+draw:
+// Wipe the frame clear before redrawing
+clear()
+
+// Draw a grid background using lines
+color("#222222")
+line(0, 150, 400, 150)
+line(200, 0, 200, 300)
+
+// Draw the interactive bouncing ball
+color(hitColor)
+circle(x, y, radius)
+
+// Render dynamic HUD statistics overlays
+color("#ffffff")
+text("Interactive Sandbox Engaged", 15, 25)
+text("Press SPACE to pop up | Click to warp", 15, 45)
+
+// --- 4. Interactive Event Phase Hooks ---
+// Warps the circle to the exact coordinates where you left-click
+click(mouseX, mouseY):
+x = mouseX
+y = mouseY
+hitColor = "#ffffff"
+
+// Gives the ball an upward thrust when pressing spacebar
+key "space":
+y = y - 35
+speedY = -4
+
+// Increases or decreases velocity thresholds based on wheel scroll delta changes
+scroll(dy):
+speedX = speedX + dy / 100
+</bs>
+
+Everything appears to execute seamlessly in isolated frame spaces. More tests to follow.
+<end>
+
+<start>
 # Egg "Shampoo" (Hair Mask) How and Why.
 Now, I hope I haven't already lost you with the title. The first thing that people think about when they hear this is "But, won't this smell like sh*t?".
 The short answer is: not if it's made properly. The primal people on TikTok are retarded. Do not listen to them.
