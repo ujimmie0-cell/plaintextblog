@@ -21,11 +21,11 @@ color:pink|Text
 color:red|Text
 color:rainbow|Text
 note|Text (Grey footnote)
-image:hovertitle|https://imagehere.test
+image:vlad|https://i.ibb.co/d4Cc1r3k/Vlad-epe-the-Impaler-Prince-of-Wallachia-1456-1462-died-1477-3.png
 
-gallery:hovertitle|
-https://imagehere.test
-https://imagehere.test
+gallery:vlad|
+https://i.ibb.co/d4Cc1r3k/Vlad-epe-the-Impaler-Prince-of-Wallachia-1456-1462-died-1477-3.png
+https://i.ibb.co/d4Cc1r3k/Vlad-epe-the-Impaler-Prince-of-Wallachia-1456-1462-died-1477-3.png
 ]
 
 dropdown:title|
