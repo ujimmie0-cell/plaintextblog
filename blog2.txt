@@ -78,7 +78,7 @@ scroll(dy):
 speedX = speedX + dy / 100
 </bs>
 
-Everything appears to execute seamlessly in isolated frame spaces. More tests to follow.
+Everything appears to execute seamlessly in isolated frame spaces. More tests to follow...
 <end>
 
 <start>
