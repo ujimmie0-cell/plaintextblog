@@ -1,127 +1,75 @@
 <start>
-# 3D Physical Space Experiment
+# 1. Main Header Test: System Architecture & Markup Burn Test
+## 2. Sub-Header Test: Verification Suite
 
-Simulating a ball with gravity and velocity vector math inside a virtual 3D bounding box. Use your mouse to click and drag to orbit the camera, or press W/S to move the camera forward and backward.
+This post tests every legacy text modifier, single-line color override, multi-level nested quote, markdown list, inline media embed, high-contrast text highlight, and multi-line interactive block container supported by the engine.
 
-<bs>
-// --- 1. Initialization Phase ---
-state x = 0
-state y = 0
-state z = 0
-state vx = 2
-state vy = 1
-state vz = 3
-state radius = 15
+## 3. Inline Text Modifiers, Highlights, & Spoilers
+- Checking regular bolding mechanics: **This text must render strictly bold.**
+- Checking regular italics mechanics: *This text must render strictly italic.*
+- Checking strikethrough styling rules: ~This text must have a line through it.~
+- Checking underline styling rules: _This text must be completely underlined._
+- Checking custom element glows: +This text should have a radioactive green neon glow background.+
+- Checking inline mouse spoilers: |This text must look like a solid black block until hovered over.|
+- Checking the new background highlighters: This phrase is a ==completely highlighted selection== inside a normal sentence.
 
-// Environmental constants
-state gravity = 0.2
-state bounce = -0.85
-state boxSize = 120
+## 4. Single-Line Color Override Tags
+%gray This entire line must render in custom gray.
+%red This entire line must render in custom red.
+%orange This entire line must render in custom orange.
+%yellow This entire line must render as yellow text over a high-contrast black background stripe.
+%green This entire line must render in custom green.
+%cyan This entire line must render in custom cyan.
+%blue This entire line must render in custom blue.
+%indigo This entire line must render in custom indigo.
+%violet This entire line must render in custom violet.
+%rainbow This entire line must dynamically animate and loop smoothly through all rainbow colors!
 
-// Camera control parameters
-state camAngleX = 0.5
-state camAngleY = 0.3
-state camZoom = 250
+## 5. Multi-Level Thread Quotes (Greentext / Orangetext)
+> This is a standard first-level green textboard quote line.
+>> This is a deeper, indented second-level nested green textboard quote line.
+< This is a standard orange textboard response or error quote line.
 
-// Mouse interaction tracking
-state isDragging = 0
-state lastMouseX = 0
-state lastMouseY = 0
+## 6. HTML Character Escaping & Code Isolation Blocks
+- Explicit Link Testing: Visit the repository profile via [https://github.com](GitHub Main Portal).
+- Single Embedded Image Asset:
+\\https://picsum.photos/id/1025/400/250\\
 
-tick:
-// --- 2. Physics Logic Phase ---
-// Apply gravity along the Y axis
-vy = vy + gravity
+## 8. Multi-Media Embed Core Wrappers
+Testing the inline HTML5 media players and custom frame integration blocks:
 
-// Update positions via velocity increments
-x = x + vx
-y = y + vy
-z = z + vz
+::audio(https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3)::
 
-// Bounding box collisions (Centered at 0,0,0 with bounds at +/- boxSize)
-if abs(x) > boxSize:
-    vx = vx * bounce
-    x = min(max(x, -boxSize), boxSize)
+::video(https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4)::
 
-if abs(y) > boxSize:
-    vy = vy * bounce
-    y = min(max(y, -boxSize), boxSize)
+::youtube(jNQXAC9IVRw)::
 
-if abs(z) > boxSize:
-    vz = vz * bounce
-    z = min(max(z, -boxSize), boxSize)
+## 9. Dynamic Layout Grid Galleries
+The text engine should pull these image targets below, wipe their double slashes, and fit them perfectly into an auto-sizing block matrix:
 
-draw:
-// --- 3. Graphics Rendering Phase ---
-clear()
+<gallery>
+//https://picsum.photos/id/15/300/200//
+//https://picsum.photos/id/19/300/200//
+//https://picsum.photos/id/24/300/200//
+//https://picsum.photos/id/28/300/200//
+</gallery>
 
-// Pre-calculate rotation trigonometric primitives for the camera matrix
-state cx = cos(camAngleX)
-state sx = sin(camAngleX)
-state cy = cos(camAngleY)
-state sy = sin(camAngleY)
+## 10. Collapsible Dropdown Details Elements
+Testing recursive parsing logic inside interactive summary disclosure tabs:
 
-// Helper logic to project 3D coordinates (X, Y, Z) into 2D Screen Space (PX, PY)
-// Translates and projects relative to the center of the canvas window (200, 150)
-// We use temporary step evaluations since equations run linearly:
+<details>
+<summary>Click here to reveal full engine architecture notes</summary>
+### Internal Execution Sequence
+1. Block matchers extract `<gallery>` and `<details>` contents *before* text escaping happens, storing them safely with alpha tokens (`XBLOCKMATCHX...`).
+2. HTML characters (`&`, `<`, `>`) are strictly escaped to neutralize code injections.
+3. Media paths (`::video::`, `::audio::`, `::youtube::`) are evaluated and expanded into safe inline frames.
+4. Block tokens are safely swapped back out with valid structural layout elements right before rendering.
+</details>
 
-// --- Render Bounding Wireframe Structure ---
-color("#333333")
-// We can approximate a basic perspective viewport by drawing cross lines at the center point
-line(100, 50, 300, 50)
-line(100, 250, 300, 250)
-line(100, 50, 100, 250)
-line(300, 50, 300, 250)
-
-// --- Transform Ball Coordinates into View Space ---
-state rotX = x * cx - z * sx
-state rotZ = x * sx + z * cx
-state rotY = y * cy - rotZ * sy
-state finalZ = y * sy + rotZ * cy + camZoom
-
-// Project to 2D screen surface if it sits safely ahead of the near plane clipping point
-if finalZ > 50:
-    state screenX = 200 + (rotX * 200) / finalZ
-    state screenY = 150 + (rotY * 200) / finalZ
-    state sizePerspective = (radius * 200) / finalZ
-
-    // Render shadow projection on the floor grid plane
-    color("#112211")
-    circle(screenX, 230, sizePerspective + 2)
-
-    // Draw the main interactive physical sphere object
-    color("#00ff66")
-    circle(screenX, screenY, sizePerspective)
-
-// Render active telemetry overlays on screen margins
-color("#ffffff")
-text("Camera Matrix Active", 15, 25)
-text("Drag Mouse to Orbit | Press W/S to Zoom", 15, 45)
-
-// --- 4. Interactive Event Phase Hooks ---
-click(mouseX, mouseY):
-isDragging = 1
-lastMouseX = mouseX
-lastMouseY = mouseY
-
-// Track dragging mechanics outside standard clicks via update ticks if required,
-// or alter view matrices incrementally whenever keys are held.
-key "w":
-camZoom = camZoom - 10
-
-key "s":
-camZoom = camZoom + 10
-
-key "a":
-camAngleX = camAngleX - 0.05
-
-key "d":
-camAngleX = camAngleX + 0.05
-</bs>
-
-Camera tracking parameters operating cleanly. Physics bounds validated.
+End of master verification suite.
 <end>
 <start>
+
 # Egg "Shampoo" (Hair Mask) How and Why.
 Now, I hope I haven't already lost you with the title. The first thing that people think about when they hear this is "But, won't this smell like sh*t?".
 The short answer is: not if it's made properly. The primal people on TikTok are retarded. Do not listen to them.
