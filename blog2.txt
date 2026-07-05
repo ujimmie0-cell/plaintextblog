@@ -1,72 +1,43 @@
 <start>
-# 1. Main Header Test: System Architecture & Markup Burn Test
-## 2. Sub-Header Test: Verification Suite
+**bold**
+*italics*
+_underline_
+==highlight==
+~strikethrough~
+# Heading
+## Subheading
+### Sub-Subheading
+link:title|https://pagehere.test
+color:grey|Text
+color:brown|Text
+color:red|Text
+color:orange|Text
+color:yellow|Text
+color:green|Text
+color:blue|Text
+color:indigo|Text
+color:violet|Text
+color:pink|Text
+color:red|Text
+color:rainbow|Text
+note|Text (Grey footnote)
+image:hovertitle|https://imagehere.test
 
-This post tests every legacy text modifier, single-line color override, multi-level nested quote, markdown list, inline media embed, high-contrast text highlight, and multi-line interactive block container supported by the engine.
+gallery:hovertitle|
+https://imagehere.test
+https://imagehere.test
+]
 
-## 3. Inline Text Modifiers, Highlights, & Spoilers
-- Checking regular bolding mechanics: **This text must render strictly bold.**
-- Checking regular italics mechanics: *This text must render strictly italic.*
-- Checking strikethrough styling rules: ~This text must have a line through it.~
-- Checking underline styling rules: _This text must be completely underlined._
-- Checking custom element glows: +This text should have a radioactive green neon glow background.+
-- Checking inline mouse spoilers: |This text must look like a solid black block until hovered over.|
-- Checking the new background highlighters: This phrase is a ==completely highlighted selection== inside a normal sentence.
+dropdown:title|
+Text line 1
+Text line 2
+]
 
-## 4. Single-Line Color Override Tags
-%gray This entire line must render in custom gray.
-%red This entire line must render in custom red.
-%orange This entire line must render in custom orange.
-%yellow This entire line must render as yellow text over a high-contrast black background stripe.
-%green This entire line must render in custom green.
-%cyan This entire line must render in custom cyan.
-%blue This entire line must render in custom blue.
-%indigo This entire line must render in custom indigo.
-%violet This entire line must render in custom violet.
-%rainbow This entire line must dynamically animate and loop smoothly through all rainbow colors!
-
-## 5. Multi-Level Thread Quotes (Greentext / Orangetext)
-> This is a standard first-level green textboard quote line.
->> This is a deeper, indented second-level nested green textboard quote line.
-< This is a standard orange textboard response or error quote line.
-
-## 6. HTML Character Escaping & Code Isolation Blocks
-- Explicit Link Testing: Visit the repository profile via [https://github.com](GitHub Main Portal).
-- Single Embedded Image Asset:
-\\https://picsum.photos/id/1025/400/250\\
-
-## 8. Multi-Media Embed Core Wrappers
-Testing the inline HTML5 media players and custom frame integration blocks:
-
-::audio(https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3)::
-
-::video(https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4)::
-
-::youtube(jNQXAC9IVRw)::
-
-## 9. Dynamic Layout Grid Galleries
-The text engine should pull these image targets below, wipe their double slashes, and fit them perfectly into an auto-sizing block matrix:
-
-<gallery>
-//https://picsum.photos/id/15/300/200//
-//https://picsum.photos/id/19/300/200//
-//https://picsum.photos/id/24/300/200//
-//https://picsum.photos/id/28/300/200//
-</gallery>
-
-## 10. Collapsible Dropdown Details Elements
-Testing recursive parsing logic inside interactive summary disclosure tabs:
-
-<details>
-<summary>Click here to reveal full engine architecture notes</summary>
-### Internal Execution Sequence
-1. Block matchers extract `<gallery>` and `<details>` contents *before* text escaping happens, storing them safely with alpha tokens (`XBLOCKMATCHX...`).
-2. HTML characters (`&`, `<`, `>`) are strictly escaped to neutralize code injections.
-3. Media paths (`::video::`, `::audio::`, `::youtube::`) are evaluated and expanded into safe inline frames.
-4. Block tokens are safely swapped back out with valid structural layout elements right before rendering.
-</details>
-
-End of master verification suite.
+table|
+category1|category2
+info1|info2
+info3|info4
+]
 <end>
 <start>
 
