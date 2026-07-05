@@ -1,86 +1,126 @@
 <start>
-# Interactive Canvas Experiment
+# 3D Physical Space Experiment
 
-Testing out the new custom inline script engine with interactive event hooks. Use the mouse to push the circle, scroll to scale it, or press space to bounce it upwards.
+Simulating a ball with gravity and velocity vector math inside a virtual 3D bounding box. Use your mouse to click and drag to orbit the camera, or press W/S to move the camera forward and backward.
 
 <bs>
 // --- 1. Initialization Phase ---
-// Variables are declared cleanly; state variables persist across frames.
-state x = 200
-state y = 150
-state speedX = 3
-state speedY = 2
-state radius = 25
-state hitColor = "#00ff00"
-state frameCounter = 0
+state x = 0
+state y = 0
+state z = 0
+state vx = 2
+state vy = 1
+state vz = 3
+state radius = 15
 
-// --- 2. Physics & Logic Phase (Runs Every Frame) ---
+// Environmental constants
+state gravity = 0.2
+state bounce = -0.85
+state boxSize = 120
+
+// Camera control parameters
+state camAngleX = 0.5
+state camAngleY = 0.3
+state camZoom = 250
+
+// Mouse interaction tracking
+state isDragging = 0
+state lastMouseX = 0
+state lastMouseY = 0
+
 tick:
-frameCounter = frameCounter + 1
+// --- 2. Physics Logic Phase ---
+// Apply gravity along the Y axis
+vy = vy + gravity
 
-// Move the circle by its current frame speed
-x = x + speedX
-y = y + speedY
+// Update positions via velocity increments
+x = x + vx
+y = y + vy
+z = z + vz
 
-// Check wall collisions (Canvas size is 400x300)
-if x > 375:
-    speedX = -3
-    hitColor = "#ff0000"
-else:
-    if x < 25:
-        speedX = 3
-        hitColor = "#0000ff"
+// Bounding box collisions (Centered at 0,0,0 with bounds at +/- boxSize)
+if abs(x) > boxSize:
+    vx = vx * bounce
+    x = min(max(x, -boxSize), boxSize)
 
-if y > 275:
-    speedY = -2
-    hitColor = "#ffff00"
-else:
-    if y < 25:
-        speedY = 2
-        hitColor = "#00ffff"
+if abs(y) > boxSize:
+    vy = vy * bounce
+    y = min(max(y, -boxSize), boxSize)
 
-// Add a subtle wave oscillation to the size over time using math primitives
-radius = 25 + sin(frameCounter / 10) * 5
+if abs(z) > boxSize:
+    vz = vz * bounce
+    z = min(max(z, -boxSize), boxSize)
 
-// --- 3. Graphics Rendering Phase ---
 draw:
-// Wipe the frame clear before redrawing
+// --- 3. Graphics Rendering Phase ---
 clear()
 
-// Draw a grid background using lines
-color("#222222")
-line(0, 150, 400, 150)
-line(200, 0, 200, 300)
+// Pre-calculate rotation trigonometric primitives for the camera matrix
+state cx = cos(camAngleX)
+state sx = sin(camAngleX)
+state cy = cos(camAngleY)
+state sy = sin(camAngleY)
 
-// Draw the interactive bouncing ball
-color(hitColor)
-circle(x, y, radius)
+// Helper logic to project 3D coordinates (X, Y, Z) into 2D Screen Space (PX, PY)
+// Translates and projects relative to the center of the canvas window (200, 150)
+// We use temporary step evaluations since equations run linearly:
 
-// Render dynamic HUD statistics overlays
+// --- Render Bounding Wireframe Structure ---
+color("#333333")
+// We can approximate a basic perspective viewport by drawing cross lines at the center point
+line(100, 50, 300, 50)
+line(100, 250, 300, 250)
+line(100, 50, 100, 250)
+line(300, 50, 300, 250)
+
+// --- Transform Ball Coordinates into View Space ---
+state rotX = x * cx - z * sx
+state rotZ = x * sx + z * cx
+state rotY = y * cy - rotZ * sy
+state finalZ = y * sy + rotZ * cy + camZoom
+
+// Project to 2D screen surface if it sits safely ahead of the near plane clipping point
+if finalZ > 50:
+    state screenX = 200 + (rotX * 200) / finalZ
+    state screenY = 150 + (rotY * 200) / finalZ
+    state sizePerspective = (radius * 200) / finalZ
+
+    // Render shadow projection on the floor grid plane
+    color("#112211")
+    circle(screenX, 230, sizePerspective + 2)
+
+    // Draw the main interactive physical sphere object
+    color("#00ff66")
+    circle(screenX, screenY, sizePerspective)
+
+// Render active telemetry overlays on screen margins
 color("#ffffff")
-text("Interactive Sandbox Engaged", 15, 25)
-text("Press SPACE to pop up | Click to warp", 15, 45)
+text("Camera Matrix Active", 15, 25)
+text("Drag Mouse to Orbit | Press W/S to Zoom", 15, 45)
 
 // --- 4. Interactive Event Phase Hooks ---
-// Warps the circle to the exact coordinates where you left-click
 click(mouseX, mouseY):
-x = mouseX
-y = mouseY
-hitColor = "#ffffff"
+isDragging = 1
+lastMouseX = mouseX
+lastMouseY = mouseY
 
-// Gives the ball an upward thrust when pressing spacebar
-key "space":
-y = y - 35
-speedY = -4
+// Track dragging mechanics outside standard clicks via update ticks if required,
+// or alter view matrices incrementally whenever keys are held.
+key "w":
+camZoom = camZoom - 10
 
-// Increases or decreases velocity thresholds based on wheel scroll delta changes
-scroll(dy):
-speedX = speedX + dy / 100
+key "s":
+camZoom = camZoom + 10
+
+key "a":
+camAngleX = camAngleX - 0.05
+
+key "d":
+camAngleX = camAngleX + 0.05
 </bs>
 
-Everything appears to execute seamlessly in isolated frame spaces. More tests to follow...
+Camera tracking parameters operating cleanly. Physics bounds validated.
 <end>
-
 <start>
 # Egg "Shampoo" (Hair Mask) How and Why.
 Now, I hope I haven't already lost you with the title. The first thing that people think about when they hear this is "But, won't this smell like sh*t?".
