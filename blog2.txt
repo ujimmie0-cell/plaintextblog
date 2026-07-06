@@ -7,36 +7,34 @@ _underline_
 # Heading
 ## Subheading
 ### Sub-Subheading
-link:title|https://pagehere.test
-color:grey|Text
-color:brown|Text
-color:red|Text
-color:orange|Text
-color:yellow|Text
-color:green|Text
-color:blue|Text
-color:indigo|Text
-color:violet|Text
-color:pink|Text
-color:red|Text
-color:rainbow|Text
-note|Text (Grey footnote)
-image:vlad|https://i.ibb.co/d4Cc1r3k/Vlad-epe-the-Impaler-Prince-of-Wallachia-1456-1462-died-1477-3.png
+text{style:style1,style2}
 
-gallery:vlad|
-https://i.ibb.co/d4Cc1r3k/Vlad-epe-the-Impaler-Prince-of-Wallachia-1456-1462-died-1477-3.png
-https://i.ibb.co/d4Cc1r3k/Vlad-epe-the-Impaler-Prince-of-Wallachia-1456-1462-died-1477-3.png
+link[namehere]"linkhere"
+
+list[
+itemhere{style:grey}
+itemhere{style:brown}
+itemhere{style:red}
 ]
 
-dropdown:title|
-Text line 1
-Text line 2
+gallery[
+imagelinkhere|optionalhovermessage
+imagelinkhere|optionalhovermessage
+imagelinkhere|optionalhovermessage
 ]
 
-table|
-category1|category2
-info1|info2
-info3|info4
+table[
+item1{style:orange}|item2{style:yellow}
+item3{style:green}|item4{style:blue}
+link[item5]{linkhere}|link[item6]{linkhere}
+link[item7]{linkhere}|link[item8]{linkhere}
+]
+
+dropdown|title[
+item1{style:indigo}
+item2{style:violet}
+item3{style:pink,glow}
+item4{style:rainbow,glow}
 ]
 <end>
 <start>
